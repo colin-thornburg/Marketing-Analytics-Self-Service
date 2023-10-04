@@ -2,11 +2,10 @@
 version: 2
 
 models:
-    - name: my_first_consumer_model
-      description: "A starter dbt model"
+    - name: consumer_order_analytics
+      description: "A sample on how to reference a model from another project"
       columns:
-          - name: id
-            description: "The primary key for this table"
+          - name: order_id
+            description: "The order identifier"
             tests:
-                - unique
                 - not_null
