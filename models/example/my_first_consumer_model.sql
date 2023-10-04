@@ -1,1 +1,0 @@
-Select * from {{ ref('hub_project', 'my_second_hub_model') }}
