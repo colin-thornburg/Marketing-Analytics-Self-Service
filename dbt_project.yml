@@ -24,7 +24,9 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+on-run-start:
 
+- '{{ is_positive_int_udf() }}'
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
