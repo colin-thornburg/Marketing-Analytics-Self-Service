@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: edw_staging
+    database: your_database_name  # Replace with your actual database name
+    schema: edw_staging  # Replace with your actual schema name if different
+    tables:
+      - name: cur_mdm_c_b_addr  # Assuming the table name is 'cur_mdm_c_b_addr'
+
+  - name: hub_load
+    database: your_database_name  # Replace with your actual database name
+    schema: hub_load_schema  # Replace with the actual schema name for HUB_LOAD_DIM_GEOGRAPHY
+    tables:
+      - name: dim_geography  # Replace with the actual table name for HUB_LOAD_DIM_GEOGRAPHY
