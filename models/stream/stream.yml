@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: customer_stream
+    database: colint_dev
+    schema: raw
+    tables:
+      - name: stream_customer_data_raw
