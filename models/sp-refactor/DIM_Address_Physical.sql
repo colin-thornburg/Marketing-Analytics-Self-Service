@@ -1,7 +1,7 @@
 {{
     config(
         materialized='incremental',
-        unique_key='LOOKUP_HASH_ADDRESS_PHYSICAL'  -- Assuming this is the unique key for your dataset
+        unique_key='LOOKUP_HASH_ADDRESS_PHYSICAL'  
     )
 }}
 
