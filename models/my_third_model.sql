@@ -1,7 +1,10 @@
 {{
     config(
         materialized='incremental',
-        post_hook = "select 1 as id"
+        post_hook={
+      "sql": "Select 1 as id",
+      "transaction": True
+    }
     )
 }}
 
