@@ -8,7 +8,7 @@ sources:
       - name: cur_mdm_c_b_addr
       - name: cur_loc_gpstore  
       - name: CUR_CUS_DBARCUD
-      - name: CUR_CUS_MASTER 
+      - name: CUR_CUS_CMASTER 
       - name: CUR_CUS_BLC_ADDRESS
       - name: CUR_CUS_ORW_CUSTOMER_ADDRESS
 

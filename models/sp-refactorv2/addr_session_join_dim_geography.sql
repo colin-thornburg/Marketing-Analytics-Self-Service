@@ -60,7 +60,7 @@ SELECT
     
 FROM {{ ref('stg_C_B_ADDR_SESSION') }} AS C_B_ADDR_SES
 LEFT JOIN
-    {{ ref('stg_dim_geography') }} AS HUB_LOAD_DIM_GEOGRAPHY_POSTAL
+    {{ ref('stg_dim_GEOGRAPHY') }} AS HUB_LOAD_DIM_GEOGRAPHY_POSTAL
     /*Alternative to union all, which broke sequence generation*/
     
     -- I would put this logic into the previous staging model --

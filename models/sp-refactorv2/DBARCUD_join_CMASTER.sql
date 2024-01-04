@@ -38,6 +38,6 @@ SELECT
 			CAST(CURRENT_TIMESTAMP - CURRENT_TIMEZONE AS TIMESTAMP) AS ETL_UPDATE_TIMESTAMP,
 			CAST(' || v_stored_procedure_execution_id || ' AS BIGINT) AS ETL_MODIFIED_BY_JOB_ID,
 			CAST(' || quote_literal(v_hub_procedure_name) || ' AS VARCHAR(128 OCTETS)) AS ETL_MODIFIED_BY_PROCESS
-		FROM {{ source('edw_staging', 'CUR_CUS_DBARCUD') }} dbarcud
-		INNER JOIN {{ source('edw_staging', 'CUR_CUS_MASTER') }} cmaster
+		FROM {{ ref('stg_edw_staging__CUR_CUS_DBARCUD') }} dbarcud
+		INNER JOIN {{ ref('stg_edw_staging__CUR_CUS_CMASTER') }} cmaster
 			ON CAST(cmaster.CCUST# AS VARCHAR) = TRIM(dbarcud.CUSTOMER)
