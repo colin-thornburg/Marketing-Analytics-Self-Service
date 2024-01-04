@@ -3,18 +3,17 @@ version: 2
 sources:
   - name: edw_staging
     database: colint_demo  # Replace with your actual database name
-    schema: edw_staging  # Replace with your actual schema name if different
+    schema: dbt_spoke_cthornburg # edw_staging  
     tables:
       - name: cur_mdm_c_b_addr
-
-  - name: edw_staging
-    database: your_database_name  # Replace with your actual database name
-    schema: edw_staging  # Replace with your actual schema name if different
-    tables:
-      - name: cur_loc_gpstore  # Assuming the table name is 'cur_mdm_c_b_addr' <-- copy of the source file + meta
+      - name: cur_loc_gpstore  
+      - name: CUR_CUS_DBARCUD
+      - name: CUR_CUS_MASTER 
+      - name: CUR_CUS_BLC_ADDRESS
+      - name: CUR_CUS_ORW_CUSTOMER_ADDRESS
 
   - name: hub_load
-    database: your_database_name  # Replace with your actual database name
-    schema: hub_load_schema  # Replace with the actual schema name for HUB_LOAD_DIM_GEOGRAPHY
+    database: colint_demo  # Replace with your actual database name
+    schema: dbt_spoke_cthornburg # hub_load_schema  
     tables:
-      - name: dim_geography  # Replace with the actual table name for HUB_LOAD_DIM_GEOGRAPHY
+      - name: dim_geography

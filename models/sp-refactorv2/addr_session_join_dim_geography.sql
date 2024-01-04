@@ -1,0 +1,90 @@
+SELECT
+    C_B_ADDR_SES.LOOKUP_HASH_ADDRESS_PHYSICAL AS LOOKUP_HASH_ADDRESS_PHYSICAL,
+    -- CAST(EDW_PROCESS.SEQ_MASTER_MEMBER_ID_H0.NEXTVAL AS BIGINT)
+       -- AS ADDRESS_PHYSICAL_ID,
+    {{ dbt_utils.generate_surrogate_key(['C_B_ADDR_SES.LOOKUP_HASH_ADDRESS_PHYSICAL']) }} AS ADDRESS_PHYSICAL_ID,
+    -- CAST('' Y '' AS VARCHAR (1 OCTETS)) AS ACTIVE_FLAG,
+    CAST('Y' AS VARCHAR (1)) AS ACTIVE_FLAG,
+    -- CAST(' 1900 - 01 - 01 - 00.00 .00 ' AS TIMESTAMP)
+       -- AS EFFECTIVE_START_DATETIME,
+    CAST('1900-01-01 00:00:00' AS TIMESTAMP) AS EFFECTIVE_START_DATETIME,
+    CAST(NULL AS TIMESTAMP) AS EFFECTIVE_END_DATETIME,
+    CAST(C_B_ADDR_SES.ADDR_LN_1 AS VARCHAR (128))
+        AS PHYSICAL_ADDRESS_LINE_1,
+    CAST(COALESCE(C_B_ADDR_SES.ADDR_LN_2, '''') AS VARCHAR (128))
+        AS PHYSICAL_ADDRESS_LINE_2,
+    CAST(COALESCE(C_B_ADDR_SES.SUITE, '''') AS VARCHAR (128))
+        AS PHYSICAL_ADDRESS_SUITE,
+    CAST(C_B_ADDR_SES.CITY AS VARCHAR (128)) AS PHYSICAL_ADDRESS_CITY,
+    CAST(
+        LEFT(TRIM(C_B_ADDR_SES.PSTL_CD) || '00000', 5) AS VARCHAR (64)
+    ) AS PHYSICAL_ADDRESS_POSTAL_CODE,
+    CAST(C_B_ADDR_SES.PSTL_CD_EXT AS VARCHAR (64))
+        AS PHYSICAL_ADDRESS_POSTAL_CODE_EXTENSION,
+    CAST(C_B_ADDR_SES.ST_PROV_CD AS VARCHAR (64))
+        AS PHYSICAL_ADDRESS_STATE_PROVINCE_CODE,
+    CAST(C_B_ADDR_SES.CNTRY_CD AS VARCHAR (512))
+        AS PHYSICAL_ADDRESS_COUNTRY_CODE,
+    CAST(COALESCE(C_B_ADDR_SES.STORE_ADDR_FLG, 'N') AS VARCHAR (1))
+        AS PHYSICAL_ADDRESS_STORE_ADDRESS_FLAG,
+    CAST(C_B_ADDR_SES.VFYD_FLG AS VARCHAR (1))
+        AS PHYSICAL_ADDRESS_VERIFICATION_FLAG,
+    CAST(COALESCE(C_B_ADDR_SES.ANON_FLG, 'N') AS VARCHAR (1))
+        AS PHYSICAL_ADDRESS_ANONIMZATION_FLAG,
+        -- Only field from Dim_Geography --
+    CAST(COALESCE(HUB_LOAD_DIM_GEOGRAPHY_POSTAL.GEOGRAPHY_ID, -2) AS BIGINT)
+        AS GEOGRAPHY_ID,
+        -----------------------------------
+    CAST(COALESCE(C_B_ADDR_SES.LATITUDE, 0.0) AS DECIMAL(13, 7))
+        AS PHYSICAL_ADDRESS_LATITUDE,
+    CAST(COALESCE(C_B_ADDR_SES.LONGITUDE, 0.0) AS DECIMAL(13, 7))
+        AS PHYSICAL_ADDRESS_LONGITUDE,
+
+        
+    CAST('N' AS VARCHAR (1)) AS ETL_SOURCE_DATA_DELETED_FLAG,
+    -- CAST(
+    --     ' || quote_literal(v_etl_source_table_1) || ' AS VARCHAR (256)
+    -- ) AS ETL_SOURCE_TABLE_NAME,
+    -- CAST(CURRENT_TIMESTAMP - CURRENT_TIMEZONE AS TIMESTAMP)
+    --     AS ETL_CREATE_TIMESTAMP,
+    CAST(CURRENT_TIMESTAMP() AS TIMESTAMP)
+        AS ETL_CREATE_TIMESTAMP,
+    CAST(CURRENT_TIMESTAMP() AS TIMESTAMP)
+        AS ETL_UPDATE_TIMESTAMP
+    -- CAST(' || v_stored_procedure_execution_id || ' AS BIGINT)
+    --     AS ETL_MODIFIED_BY_JOB_ID,
+    -- CAST(
+    --     ' || quote_literal(v_hub_procedure_name) || ' AS VARCHAR (128)
+    -- ) AS ETL_MODIFIED_BY_PROCESS
+
+    
+FROM {{ ref('stg_C_B_ADDR_SESSION') }} AS C_B_ADDR_SES
+LEFT JOIN
+    {{ ref('stg_dim_geography') }} AS HUB_LOAD_DIM_GEOGRAPHY_POSTAL
+    /*Alternative to union all, which broke sequence generation*/
+    
+    -- I would put this logic into the previous staging model --
+    ON CASE
+WHEN c_b_addr_ses.CNTRY_CD = 'US' THEN TRIM('USA' || '-' || TRIM(c_b_addr_ses.ST_PROV_CD) || '-' || TRIM(c_b_addr_ses.CITY) || '-' || LEFT(TRIM(c_b_addr_ses.PSTL_CD) || '00000', 5))
+					WHEN c_b_addr_ses.CNTRY_CD = 'CA' THEN TRIM('CAN' || '-' || TRIM(c_b_addr_ses.ST_PROV_CD))
+				END = hub_load_DIM_GEOGRAPHY_POSTAL.GEOGRAPHY_HIERARCHY_LEVEL_MEMBER_CODE
+    
+    /* Is this Group by necessary or can it be replaced with tests???  
+    
+        Group by
+        c_b_addr_ses.LOOKUP_HASH_ADDRESS_PHYSICAL,
+			c_b_addr_ses.ADDR_LN_1,
+			COALESCE(c_b_addr_ses.ADDR_LN_2, ''''),
+			COALESCE(c_b_addr_ses.SUITE, ''''),
+			c_b_addr_ses.CITY,
+			c_b_addr_ses.PSTL_CD,
+			c_b_addr_ses.PSTL_CD_EXT,
+			c_b_addr_ses.ST_PROV_CD,
+			c_b_addr_ses.CNTRY_CD,
+			COALESCE(C_B_ADDR_SES.STORE_ADDR_FLG, 'N'),
+			c_b_addr_ses.VFYD_FLG,
+			COALESCE(c_b_addr_ses.ANON_FLG, 'N'),
+			COALESCE(hub_load_DIM_GEOGRAPHY_POSTAL.GEOGRAPHY_ID, -2),
+			COALESCE(c_b_addr_ses.LATITUDE,0.0),
+			COALESCE(c_b_addr_ses.LONGITUDE,0.0) 
+            */
