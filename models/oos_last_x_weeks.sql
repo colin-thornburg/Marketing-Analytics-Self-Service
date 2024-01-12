@@ -1,0 +1,1 @@
+Select * from {{ ref('base_oos_blocks') }}

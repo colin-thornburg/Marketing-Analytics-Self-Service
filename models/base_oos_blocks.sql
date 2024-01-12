@@ -1,0 +1,1 @@
+Select * from {{ ref('inventory_data') }}

@@ -1,0 +1,1 @@
+Select * from {{ ref('zero_sales_blocks_table') }}
