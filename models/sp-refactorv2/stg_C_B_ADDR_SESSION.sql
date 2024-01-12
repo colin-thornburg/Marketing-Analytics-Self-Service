@@ -1,3 +1,9 @@
+{{
+    config(
+        materialized='view'
+    )
+}}
+
 WITH hashed_addresses AS (
     SELECT
         ADDR_LN_1,

@@ -1,4 +1,4 @@
--- First, create a CTE that unpivots your data
+
 with unpivoted as (
   select
     STR as STORE_NUMBER,
@@ -32,5 +32,4 @@ with unpivoted as (
   from {{ ref('statprc') }}
 )
 
--- Then, you can select from your unpivoted CTE
 select * from unpivoted
