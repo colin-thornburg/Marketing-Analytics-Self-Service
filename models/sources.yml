@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+ - name: changes_source
+   description: select from a table w/ changes  
+   schema: dbt_spoke_cthornburg
+   
+   tables:
+     - name: t1
+       description: order table with
+                    change_tracking enabled
