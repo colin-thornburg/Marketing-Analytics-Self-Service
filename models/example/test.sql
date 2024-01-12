@@ -1,1 +1,0 @@
-Select * from {{ ref('consumer_order_analytics') }}
