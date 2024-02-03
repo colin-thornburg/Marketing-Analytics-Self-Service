@@ -1,13 +1,13 @@
 version: 2
 
 models:
-  # - name: orders
-  #   columns:
-  #     - name: customer_id
-  #       tests:
-  #         - relationships:
-  #             to: ref('customers')
-  #             field: id
+  - name: orders
+    columns:
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('customers')
+              field: id
 
   - name: stg_orders
     config:
