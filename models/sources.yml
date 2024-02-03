@@ -2,7 +2,7 @@ version: 2
 
 sources:
  - name: changes_source
-   description: select from a table w/ changes  
+   description: select from a table w/ change_tracking
    schema: dbt_spoke_cthornburg
    
    tables:

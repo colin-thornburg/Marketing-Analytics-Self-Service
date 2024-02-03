@@ -1,7 +1,7 @@
 {{
    config(
        materialized='incremental',
-        post_hook=["{{ check_change_tracking(this) }}"]
+       unique_key='id'
    )
 }}
 
