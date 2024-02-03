@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  # - name: orders
+  #   columns:
+  #     - name: customer_id
+  #       tests:
+  #         - relationships:
+  #             to: ref('customers')
+  #             field: id
+
+  - name: stg_orders
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: order_id
+        data_type: int
+        constraints:
+          - type: primary_key
+      - name: customer_id
+        data_type: int
+        constraints:
+          - type: foreign_key
+            expression: ref('customers')  # Reference the 'customers' model
+      - name: order_date
+        data_type: date
+  - name: stg_customers
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: id
+        data_type: int
+        constraints:
+          - type: primary_key
+      - name: name
+        data_type: string
+        constraints:
+          - type: not_null
+      - name: email
+        data_type: string
+        constraints:
+          - type: unique
