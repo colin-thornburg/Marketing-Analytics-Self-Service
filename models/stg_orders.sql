@@ -1,3 +1,7 @@
-Select * from {{ ref('orders') }}
+{{
+    config(
+        materialized='table'
+    )
+}}
 
---{{ref('orders')}}
+Select * from {{ ref('orders') }}
