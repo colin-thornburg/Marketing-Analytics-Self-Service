@@ -1,0 +1,4 @@
+customer_id,first_name,last_name,email,email_top_level_domain
+1,John,Doe,john.doe@example.com,example.com
+2,Jane,Doe,jane.doe@invalid.com,invalid.com
+3,Doe,Smith,doe.smith@valid.com,valid.com
