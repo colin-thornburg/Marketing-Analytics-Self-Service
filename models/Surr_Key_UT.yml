@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: dim_products
+
+unit_tests:
+  - name: test_surrogate_key_lookup
+    description: "Ensure new products receive new surrogate keys and existing products retain their original surrogate keys."
+    model: dim_products
+    given:
+      - input: ref('stg_products')  # Assuming stg_products is your source table for products
+        rows:
+          - {product_name: 'Product A', product_category: 'Category 1'}  # Existing product
+          - {product_name: 'Product B', product_category: 'Category 2'}  # New product
+      - input: ref('dim_products')  # Your dimension table where surrogate keys are assigned
+        rows:
+          - {surrogate_key: 1, product_name: 'Product A', product_category: 'Category 1'}  # Existing product with its surrogate key
+    expect:
+      rows:
+        - {surrogate_key: 1, product_name: 'Product A', product_category: 'Category 1'}  # Existing product retains its key
+        - {product_name: 'Product B', product_category: 'Category 2'}  # New product; we expect it to have a new surrogate key, but we don't predict the exact value
