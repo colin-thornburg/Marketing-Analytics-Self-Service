@@ -6,7 +6,6 @@
 }}
 
 -- get the timestamp for the last run time
--- changes at must take a string literal, not a sql query
 {% if is_incremental() %}
    {% set max_ts = run_query("select max(last_run_ts) from " ~ this) %}
 

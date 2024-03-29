@@ -1,0 +1,16 @@
+-- models/campaigns.sql
+SELECT
+    CAMPAIGN_ID,
+    CUSTOMER_ID,
+    CAMPAIGN_NAME,
+    CAMPAIGN_START_DATE,
+    CAMPAIGN_END_DATE,
+    PROMO_CODE,
+    PROMO_DISCOUNT,
+    DATEDIFF(day, CAMPAIGN_START_DATE, CAMPAIGN_END_DATE) AS CAMPAIGN_DURATION_DAYS,
+    CASE 
+        WHEN PROMO_DISCOUNT LIKE '%OFF' THEN 'Percentage Discount'
+        WHEN PROMO_DISCOUNT LIKE '$%' THEN 'Cash Discount'
+        ELSE 'Unknown'
+    END AS DISCOUNT_TYPE
+FROM {{ ref('campaigns') }}
