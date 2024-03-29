@@ -1,0 +1,6 @@
+From our perspective, we have options, it's just trying to find a balance
+1) have a simple table (dbt model that materializes as a temp or permanent table) that reads from the stream/view to ensure as a "staging" table to load the incremental models --> simple but adds an additional object
+2) clone the stream, kick off the operation to load targets off the clone, drop the clone
+3) Simply have dbt call the stored procedure that is wrapped in a transaction block - simple but now you have stored procedure de-coupled from the rest of the dbt code
+4) The method I mentioned above - enable change tracking on a table and potentially remove the need for a stream/view
+5) Always have the fallback of creating a custom materialization that performs that exact way you want it - this just would take some development work on my side and don't like to use this method overriding standard functionality but it's always a fall back.
