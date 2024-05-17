@@ -1,0 +1,59 @@
+models:
+  - name: campaigns_orders
+    columns:
+      - name: ORDER_ID
+        tests:
+          - unique
+          - not_null
+      - name: CUSTOMER_ID
+        tests:
+          - not_null
+      - name: FIRST_NAME
+        tests:
+          - not_null
+      - name: LAST_NAME
+        tests:
+          - not_null
+      - name: ORDER_DATE
+        tests:
+          - not_null
+      - name: STATE
+        tests:
+          - not_null
+      - name: PAYMENT_ID
+        tests:
+          - not_null
+      - name: PAYMENT_METHOD
+        tests:
+          - not_null
+      - name: AMOUNT
+        tests:
+          - not_null
+      - name: CREATED_AT
+        tests:
+          - not_null
+      - name: FIRST_ORDER_DATE
+        tests:
+          - not_null
+      - name: MOST_RECENT_ORDER_DATE
+        tests:
+          - not_null
+      - name: CAMPAIGN_ID
+        tests:
+          - unique
+          - not_null
+      - name: CAMPAIGN_NAME
+        tests:
+          - not_null
+      - name: CAMPAIGN_START_DATE
+        tests:
+          - not_null
+      - name: CAMPAIGN_END_DATE
+        tests:
+          - not_null
+      - name: PROMO_CODE
+        tests:
+          - not_null
+      - name: PROMO_DISCOUNT
+        tests:
+          - not_null
